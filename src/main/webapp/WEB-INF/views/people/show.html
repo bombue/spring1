@@ -8,10 +8,22 @@
 <p th:text="${person.getFio()}">value</p>
 <p th:text="${person.getYearOfBirth()}">value</p>
 
-<a th:href="@{/people/{id}/edit(id=${person.getId()})}">edit</a>
+<div th:if="${#lists.isEmpty(person.getBookList())}">
+    <div>Человек пока не взял ни одной книги</div>
+</div>
+<div th:unless="${#lists.isEmpty(person.getBookList())}">
+    <div>Книги:</div>
+</div>
 
-<form th:method="DELETE" th:action="@{people/{id}(id=${person.getId()})}">
-    <input type="submit" value="Delete"/>
+<div th:each="book : ${person.getBookList()}">
+    <a th:if="${not #lists.isEmpty(person.getBookList())}" th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublish()}">book</a>
+</div>
+
+<form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">
+    <input type="submit" value="Редактировать"/>
+</form>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Удалить"/>
 </form>
 </body>
 </html>

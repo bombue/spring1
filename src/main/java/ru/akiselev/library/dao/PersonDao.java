@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import ru.akiselev.library.models.Book;
 import ru.akiselev.library.models.Person;
 
 import java.util.List;
@@ -32,5 +33,13 @@ public class PersonDao {
 
     public void create(Person person) {
         jdbcTemplate.update("insert into person (fio, yearOfBirth) values (?, ?);", person.getFio(), person.getYearOfBirth());
+    }
+
+    public void delete(int id) {
+        jdbcTemplate.update("delete from Person where id=?", id);
+    }
+
+    public List<Book> getBooks(int id) {
+        return jdbcTemplate.query("select * from book where person_id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class));
     }
 }

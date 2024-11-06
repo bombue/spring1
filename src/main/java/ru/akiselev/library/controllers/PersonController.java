@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.akiselev.library.dao.PersonDao;
 import ru.akiselev.library.models.Person;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/people")
 public class PersonController {
@@ -32,7 +34,9 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDao.show(id));
+        Person person = personDao.show(id);
+        person.setBookList(personDao.getBooks(id));
+        model.addAttribute("person", person);
         return "people/show";
     }
 
@@ -55,6 +59,12 @@ public class PersonController {
         if (bindingResult.hasErrors())
             return "people/new";
         personDao.create(person);
+        return "redirect:/people";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id) {
+        personDao.delete(id);
         return "redirect:/people";
     }
 }
