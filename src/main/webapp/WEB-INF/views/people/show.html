@@ -8,15 +8,15 @@
 <p th:text="${person.getFio()}">value</p>
 <p th:text="${person.getYearOfBirth()}">value</p>
 
-<div th:if="${#lists.isEmpty(person.getBookList())}">
+<div th:if="${books.isEmpty()}">
     <div>Человек пока не взял ни одной книги</div>
 </div>
-<div th:unless="${#lists.isEmpty(person.getBookList())}">
+<div th:unless="${#lists.isEmpty(books)}">
     <div>Книги:</div>
 </div>
 
-<div th:each="book : ${person.getBookList()}">
-    <a th:if="${not #lists.isEmpty(person.getBookList())}" th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYearOfPublish()}">book</a>
+<div th:each="book : ${books}">
+    <a th:if="${not #lists.isEmpty(books)}" th:style="${book.getValue().booleanValue() == true ? 'color: red' : 'color: green'}" th:text="${book.getKey().getName() + ', ' + book.getKey().getAuthor() + ', ' + book.getKey().getYearOfPublish()}">book</a>
 </div>
 
 <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">

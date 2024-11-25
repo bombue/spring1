@@ -18,7 +18,6 @@
     <input type="text" th:field="*{yearOfPublish}" id="yearOfPublish"/>
     <div style="color: red" th:if="${#fields.hasErrors('yearOfPublish')}" th:errors="*{yearOfPublish}">yearOfPublish error</div>
     <br/>
-    <input type="hidden" th:field="*{person_id}" id="person_id">
     <input type="submit" value="Редактировать!"/>
 </form>
 </body>
